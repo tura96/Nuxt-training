@@ -25,12 +25,13 @@
         </div>
         <button type="submit">Register</button>
       </form>
-      <div v-if="error">{{ error }}</div>
+      <div v-if="error" class="error-message">{{ error }}</div>
     </div>
   </template>
   
   <script setup lang="ts">
   import { ref } from 'vue';
+  const runtimeConfig = useRuntimeConfig();
   
   interface Form {
     username: string;
@@ -54,7 +55,7 @@
     console.log('Data submitted : ' + form.value)
     try {
       error.value = null;
-      const response = await $fetch('http://localhost:1873/api/register',{
+      const response = await $fetch('/api/register',{
         method: 'POST',
         // body: form.value,
         body: JSON.stringify(form.value), 
@@ -62,7 +63,7 @@
             'Content-Type': 'application/json', // Specify content type for JSON
         },
       } );
-      alert(response.data.message);
+      // alert(response.data.message);
       if (response.statusCode === 201) {
         console.log('Success:', response.body);
             // Clear the form
@@ -73,19 +74,93 @@
             confirmPassword: '',
             agreeTerms: false,
             };
-        } else {
-        console.error('Unexpected status code:', response.statusCode);
-        error.value = 'Unexpected status code received.';
-        }
+            error.value = 'User registered successfully.';
+        } 
+        // else {
+        // console.error('Unexpected status code:', response.statusCode);
+        // error.value = 'Unexpected status code received.';
+        // }
     } catch (err) {
-        if (err.response.statusCode === 500) {
-            console.error('Server error:', err.response.body.message || 'Internal server error');
-            error.value = err.response.body.message || 'Internal server error';
-        } else {
-            console.error('Error:', err.response.body.message || 'An error occurred');
-            error.value = err.response.body.message || 'An error occurred';
-        }
+      if (err.response.status === 400) {
+
+        console.error('Server error:', err.response.data.message || 'Internal server error');
+        error.value = err.response.data.message || 'Internal server error';
+
+      } else if (err.response.status === 401) {
+
+        console.error('Server error:', err.response.data.message || 'Internal server error');
+        error.value = err.response.data.message || 'Internal server error';
+      }
+      else {
+        console.error('Error:', err.response.data.message || 'An error occurred');
+        error.value = err.response.data.message || 'An error occurred';
+      }
+    } finally {
+      
     }
   };
   </script>
   
+<style scoped>
+.register-container {
+  max-width: 400px;
+  margin: 0 auto;
+  padding: 20px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  background-color: #f9f9f9;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+h1 {
+  text-align: center;
+  margin-bottom: 20px;
+}
+form{
+  max-width: 80%;
+  margin: auto;
+}
+.form-group {
+  margin-bottom: 15px;
+}
+
+label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: bold;
+}
+
+input[type="text"],
+input[type="email"],
+input[type="password"] {
+  width: 100%;
+  padding: 8px;
+  box-sizing: border-box;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+input[type="checkbox"] {
+  margin-right: 10px;
+}
+
+button {
+  width: 100%;
+  padding: 10px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #0056b3;
+}
+
+.error-message {
+  color: red;
+  margin-top: 10px;
+  text-align: center;
+}
+</style>

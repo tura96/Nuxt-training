@@ -1,5 +1,5 @@
 
-const apiBaseURL = 'http://localhost:3000';
+const apiBaseURL = 'http://localhost:1873';
 
 export default defineNuxtConfig({
   devServer: {
@@ -24,15 +24,3 @@ export default defineNuxtConfig({
   },
   devtools: { enabled: true },
 });
-
-// export default defineNuxtConfig({
-//   buildModules: ['@nuxt/typescript-build'],
-//   modules: ['@nuxtjs/axios'],
-//   axios: {
-//     baseURL: 'http://localhost:3000', // Point to the backend server
-//   },
-//   typescript: {
-//     typeCheck: true,
-//     ignoreNotFoundWarnings: true,
-//   },
-// });

@@ -10,7 +10,7 @@ export default defineEventHandler(async (event) => {
   }
 
   if (password !== confirmPassword) {
-    return { statusCode: 400, body: { message: 'Passwords do not match.' } };
+    return { statusCode: 401, body: { message: 'Passwords do not match.' } };
   }
 
   const userData = { username, password, email, registeredAt: new Date() };
