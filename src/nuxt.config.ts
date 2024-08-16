@@ -1,26 +1,13 @@
-
-const apiBaseURL = 'http://localhost:1873';
-
+// https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
-  devServer: {
-    port: 1873,
-  },
+  css: ['~/assets/scss/main.scss'],
+  compatibilityDate: '2024-04-03',
+  devtools: { enabled: true },
+  modules: ["@nuxtjs/tailwindcss",'@pinia/nuxt'],
   runtimeConfig: {
     public: {
-      apiBase: apiBaseURL,
+      key_jwt: process.env.JWT_SECRET_KEY,
+      key_refresh_jwt: process.env.REFRESH_TOKEN_SECRET,
     },
-  },
-  plugins: ["@/plugins/axios.ts"],
-  components: true,
-  typescript: {
-    strict: true,
-  },
-  modules: ["@vueuse/motion/nuxt", "@pinia/nuxt", '@nuxt/image', 'nuxt-delay-hydration'],
-  pinia: {
-    autoImports: ["defineStore"],
-  },
-  experimental: {
-    appManifest: false
-  },
-  devtools: { enabled: true },
-});
+  }
+})

@@ -1,0 +1,132 @@
+[
+  {
+    "ID": 1,
+    "Username": "manh123",
+    "Email": "hahongmanh19971997@gmail.com",
+    "Remember": true,
+    "Role": "admin",
+    "Password": "1c831b51e545ac1a75e161e30c02f2ba",
+    "Create_at": "08-08-2024 20:11:20",
+    "Time": "",
+    "Ip": "",
+    "User_agent": "",
+    "Code": 0,
+    "Token_check": "",
+    "Token_refresh": ""
+  },
+  {
+    "ID": 5,
+    "Username": "oangledev",
+    "Email": "hahongmansss7@gmail.com",
+    "Remember": true,
+    "Role": "user",
+    "Password": "f5bb0c8de146c67b44babbf4e6584cc0",
+    "Create_at": "14-08-2024 22:02:13"
+  },
+  {
+    "ID": 6,
+    "Username": "oangledes210",
+    "Email": "hahongmcc@gmail.com",
+    "Remember": true,
+    "Role": "user",
+    "Password": "f5bb0c8de146c67b44babbf4e6584cc0",
+    "Create_at": "14-08-2024 22:02:52"
+  },
+  {
+    "ID": 8,
+    "Username": "demo login",
+    "Email": "hahongmanh@gmail.com",
+    "Remember": true,
+    "Role": "user",
+    "Password": "f5bb0c8de146c67b44babbf4e6584cc0",
+    "Create_at": "14-08-2024 22:13:21"
+  },
+  {
+    "ID": 9,
+    "Username": "pdg",
+    "Email": "hahongmaw431997@gmail.com",
+    "Remember": true,
+    "Role": "user",
+    "Password": "f5bb0c8de146c67b44babbf4e6584cc0",
+    "Create_at": "14-08-2024 22:14:53"
+  },
+  {
+    "ID": 11,
+    "Username": "demo test",
+    "Email": "hahongsss@gmail.com",
+    "Remember": true,
+    "Role": "user",
+    "Password": "f5bb0c8de146c67b44babbf4e6584cc0",
+    "Create_at": "15-08-2024 19:43:26"
+  },
+  {
+    "ID": 12,
+    "Username": "peter",
+    "Email": "hahongman33997@gmail.com",
+    "Remember": true,
+    "Role": "user",
+    "Password": "f5bb0c8de146c67b44babbf4e6584cc0",
+    "Create_at": "15-08-2024 20:01:35"
+  },
+  {
+    "ID": 13,
+    "Username": "Peter Ha",
+    "Email": "manh123@gmail.com",
+    "Remember": true,
+    "Role": "admin",
+    "Password": "f5bb0c8de146c67b44babbf4e6584cc0",
+    "Create_at": "15-08-2024 20:02:15",
+    "Time": "",
+    "Ip": "",
+    "User_agent": "",
+    "Code": 0,
+    "Token_check": ""
+  },
+  {
+    "ID": 14,
+    "Username": "peter 1",
+    "Email": "peterha@gmail.com",
+    "Remember": true,
+    "Role": "admin",
+    "Password": "1c831b51e545ac1a75e161e30c02f2ba",
+    "Create_at": "15-08-2024 20:20:47"
+  },
+  {
+    "ID": 15,
+    "Username": "manh123",
+    "Email": "hahoasdas71997@gmail.com",
+    "Remember": true,
+    "Role": "user",
+    "Password": "1c831b51e545ac1a75e161e30c02f2ba",
+    "Create_at": "15-08-2024 20:44:10"
+  },
+  {
+    "ID": 16,
+    "Username": "oangledev",
+    "Email": "hahonssss97@gmail.com",
+    "Remember": true,
+    "Role": "admin",
+    "Password": "1c831b51e545ac1a75e161e30c02f2ba",
+    "Create_at": "15-08-2024 20:45:10",
+    "Time": "",
+    "Ip": "",
+    "User_agent": "",
+    "Code": 0,
+    "Token_check": "",
+    "Token_refresh": ""
+  },
+  {
+    "ID": 17,
+    "Username": "demo user",
+    "Email": "demo123123@gmail.com",
+    "Remember": true,
+    "Role": "admin",
+    "Password": "1c831b51e545ac1a75e161e30c02f2ba",
+    "Create_at": "15-08-2024 21:43:17",
+    "Time": "",
+    "Ip": "",
+    "User_agent": "",
+    "Code": 0,
+    "Token_check": ""
+  }
+]
