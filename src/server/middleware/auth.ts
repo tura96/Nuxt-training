@@ -6,7 +6,6 @@ import crypto from 'crypto';
 import { promises as fs } from 'fs';
 import path from 'path';
 import jwt from 'jsonwebtoken';
-import { useAuthStore } from '@/stores/auth'
 
 const excludeURLs = ['/api/login', '/api/sentcode','/api/register' ];
 
@@ -27,7 +26,7 @@ export default defineEventHandler(async (event: H3Event) => {
     };
 
     const clearAllCookie = () => {
-        ['accessToken', 'cookie_login', 'SID', 'refreshToken'].forEach(cookie => {
+        ['accessToken', 'cookie_login', 'SID'].forEach(cookie => {
             setCookie(event, cookie, '', {
                 httpOnly: true,
                 secure: true,
@@ -36,16 +35,6 @@ export default defineEventHandler(async (event: H3Event) => {
             });
         });
     };
-    const clearCookieAuth = () =>{
-        const authData = JSON.stringify({ username: "", isLoggedIn: false });
-        setCookie(event, 'auth', authData, {
-            httpOnly: true,
-            secure: true,
-            path: '/', 
-            maxAge: 0,
-            expires: new Date(0)
-        });
-    }
 
     const checkIP = req.headers?.ip || getCacheIP();
     const checkUserAgent = req.headers['user-agent'];
@@ -53,19 +42,16 @@ export default defineEventHandler(async (event: H3Event) => {
     const getCookieLogin = getCookieCustom(cookies, 'cookie_login') ?? '';
     
     const getAccessToken = getCookie(event, 'accessToken');
-    const getAccessRefreshToken = getCookie(event, 'refreshToken');
     const checkToken = crypto.createHash('md5').update(getCookieLogin).digest("hex");
     
 
-    if (!cookies || !checkUserAgent || !checkIP || !getCookieLogin || !getAccessToken || !getAccessRefreshToken) {
-        clearCookieAuth();
+    if (!cookies || !checkUserAgent || !checkIP || !getCookieLogin || !getAccessToken) {
         return handleErrorAPI(event);
     }
 
     try {
         const verified = jwt.verify(getAccessToken, runtimeConfig.public.key_jwt);
         if (!verified || !verified.user_login) {
-            clearCookieAuth();
             return handleErrorAPI(event, 'Invalid token!');
         }
 
@@ -99,32 +85,54 @@ export default defineEventHandler(async (event: H3Event) => {
                 console.log('time end', timeLeft);
                 
                 // console.log('token_refresh_check',token_refresh_check);
-                // console.log('getAccessRefreshToken',getAccessRefreshToken);
                 const newExpiryTime = new Date();
                 newExpiryTime.setTime(newExpiryTime.getTime() + (30 * 60 * 1000));
 
-                if (timeLeft < 5 * 60 && token_refresh_check === getAccessRefreshToken) {
-                    const newAccessToken = jwt.sign(
-                        { user_login: userId },
-                        runtimeConfig.public.key_jwt,
-                        { expiresIn: '30m' }
-                    );
+                if (timeLeft < 5 * 60) {
+
+                    const verified_refresh = jwt.verify(token_refresh_check, runtimeConfig.public.key_refresh_jwt);
+
+                    if(verified_refresh.user_login){
+                        const newAccessToken = jwt.sign(
+                            { user_login: userId },
+                            runtimeConfig.public.key_jwt,
+                            { expiresIn: '30m' }
+                        );
+                        const newRefreshAccessToken = jwt.sign(
+                            { user_login: userId },
+                            runtimeConfig.public.key_refresh_jwt,
+                            { expiresIn: '1d' }
+                        );
+                        userData[userIndex].Token_refresh = newRefreshAccessToken;
+
+                        try {
+                            await fs.writeFile(filePath, JSON.stringify(userData, null, 2), 'utf-8');
+                        } catch (err) {
+                            console.error('Error writing update Token_refresh data file:', err);
+                            return {
+                                status: 400,
+                                message: 'Could not update user Token_refresh data file.',
+                            };
+                        }
+
+                        setCookie(event, 'accessToken', newAccessToken, {
+                            httpOnly: true,
+                            secure: true,
+                            expires: newExpiryTime
+                        });
+                    }
+
+                    
     
-                    setCookie(event, 'accessToken', newAccessToken, {
-                        httpOnly: true,
-                        secure: true,
-                        expires: newExpiryTime
-                    });
+                    
                 }
             } else {
-                clearCookieAuth();
                 clearAllCookie();
                 return handleErrorAPI(event, 'Account does not exist', 403);
             }
         }
         event.context.getAuth = verified;
     } catch (err) {
-        clearCookieAuth();
         console.error('JWT verification error:', err);
         if (err instanceof jwt.JsonWebTokenError) {
             return handleErrorAPI(event, 'Invalid token.');

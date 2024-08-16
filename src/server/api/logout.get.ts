@@ -42,13 +42,6 @@ export default defineEventHandler(async (event) => {
                 };
             }
 
-            setCookie(event, 'refreshToken', '', {
-                httpOnly: true,
-                secure: false,
-                maxAge: 0,
-                expires: new Date(0),
-            });
-
             setCookie(event, 'accessToken', '', {
                 httpOnly: true,
                 secure: false,

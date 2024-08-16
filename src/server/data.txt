@@ -107,7 +107,13 @@
     "Remember": true,
     "Role": "admin",
     "Password": "1c831b51e545ac1a75e161e30c02f2ba",
-    "Create_at": "15-08-2024 20:45:10"
+    "Create_at": "15-08-2024 20:45:10",
+    "Time": "",
+    "Ip": "",
+    "User_agent": "",
+    "Code": 0,
+    "Token_check": "",
+    "Token_refresh": ""
   },
   {
     "ID": 17,

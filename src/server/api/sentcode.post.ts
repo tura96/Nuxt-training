@@ -21,7 +21,6 @@ export default defineEventHandler(async (event) => {
     const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)*\.[a-zA-Z]{2,}$/;
     const validLocalPartRegex = /^[a-zA-Z0-9._%+-]+$/;
     const validDomainPartRegex = /^[a-zA-Z0-9.-]+$/;
-    const passRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*(),.?":{}|<>[\]\/\\~`';\-_=+])[A-Za-z\d!@#$%^&*(),.?":{}|<>[\]\/\\~`';\-_=+]{8,}$/;
     const localPart = email.split('@')[0];
     const domainPart = email.split('@')[1];
 
@@ -73,21 +72,14 @@ export default defineEventHandler(async (event) => {
                 const expiryTime = new Date();
                 const expiryRefTime = new Date();
 
-                // Đặt thời gian hết hạn cho accessToken và refreshToken
-                expiryTime.setTime(expiryTime.getTime() + (30 * 60 * 1000)); // 30 phút
-                expiryRefTime.setTime(expiryRefTime.getTime() + (24 * 60 * 60 * 1000)); // 24 giờ
+                expiryTime.setTime(expiryTime.getTime() + (30 * 60 * 1000));
+                expiryRefTime.setTime(expiryRefTime.getTime() + (24 * 60 * 60 * 1000)); 
 
-                const expiresIn = 30 * 60; // 30 phút
-                const expiresInRefresh = 24 * 60 * 60; // 24 giờ
+                const expiresIn = 30 * 60; 
+                const expiresInRefresh = 24 * 60 * 60;
 
                 const access_token = jwt.sign(data, jwtSecretKey, { expiresIn });
                 const access_ref_token = jwt.sign(data, jwtRefreshSecretKey, { expiresIn: expiresInRefresh });
-
-                setCookie(event, 'refreshToken', access_ref_token, {
-                    httpOnly: true,
-                    secure: true,
-                    expires: expiryRefTime
-                });
 
                 setCookie(event, 'accessToken', access_token, {
                     httpOnly: true,
@@ -101,8 +93,6 @@ export default defineEventHandler(async (event) => {
                     expires: expiryTime
                 });
                 const setIp = convertNumberToString(clientIp);
-                // console.log('2222',setIp);
-                
 
                 setCookie(event, 'SID', convertNumberToString(clientIp), {
                     httpOnly: true,
